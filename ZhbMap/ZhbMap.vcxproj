@@ -127,11 +127,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="myMap.cpp" />
     <ClCompile Include="ZhbMap.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="myMap.h" />
+    <ClInclude Include="myMap.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -18,12 +18,9 @@
     <ClCompile Include="ZhbMap.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="myMap.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="myMap.h">
+    <ClInclude Include="myMap.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
