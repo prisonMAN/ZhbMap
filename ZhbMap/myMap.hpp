@@ -218,42 +218,53 @@ namespace myMap {
          * Dijkstra算法实现
          */
         //FIXME:问题出现在最下面的while那里，需要将权跟节点在dist数组中的位置绑定，不然会有bug
-        std::vector<int> Dijkstra(T source)
+        std::vector<std::pair<int, int>> Dijkstra(T source)
         {
             int num = FindVertexIndex(source);
             std::vector<int> dist(vexnum, INT_MAX); //距离数组
             dist[num] = 0;
 
-            auto sort = [](const int& a, const int& b) {
-                return a > b;
+            auto sort = [](const std::pair<int, int>& a, const std::pair<int, int>& b) {
+                return a.first > b.first;
             };
-            std::priority_queue<int, std::vector<int>, decltype(sort)> pq(sort);
+            std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, decltype(sort)> pq(sort);
 
             //将起点的距离设置为0，将所有其他节点的距离设置为无穷大（或一个足够大的数），并将起点加入一个优先队列（或最小堆）中，按照距离从小到大排序。
 			for(int i = 0; i < vexnum; i++)
 			{
-                pq.emplace(dist[i]);
+                pq.emplace(dist[i], i);
 			}
+
+            std::vector<std::pair<int, int>> result;
 
             //从优先队列中取出距离最小的节点（当前最短路径的节点），遍历与其相邻的节点。对于每个相邻节点，计算通过当前最短路径节点到达它的距离，并与已知距离进行比较。
             //如果计算出的距离小于已知距离，则更新该节点的距离值，然后将其加入优先队列。
             while(!pq.empty())
             {
-                int u = pq.top();
+                int u = pq.top().second;
                 pq.pop();
 
 
-                for (int i = 0; i < this->MaxVertexNum; i++) {
+                for (int i = 0; i < this->vexnum; i++) {
                     if (i == u) {
                         continue;
                     }
 
-                    dist[i] = (dist[u] + GetEdgeValue(u, i)) < dist[i] ? (dist[u] + GetEdgeValue(u, i)) : dist[i];
-                    pq.emplace(dist[i]);
+                    int newDist = dist[u] + GetEdgeValue(u, i);
+                    if (newDist < dist[i]) {
+                        dist[i] = newDist;
+                        pq.emplace(dist[i], i);
+                    }
                 }
             }
 
-            return dist;
+            for (int i = 0; i < vexnum; i++)
+            {
+                result.emplace_back(dist[i], i);
+            }
+
+
+            return result;
         }
 
     };
