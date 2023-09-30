@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <vector>
+#include <queue>
 
 namespace myMap {
 
@@ -80,6 +81,7 @@ namespace myMap {
          */
         void Neighbors(T vertex)
         {
+            
             int vertexIndex = FindVertexIndex(vertex);
             if (vertexIndex == -1) {
                 return;  // 无效节点，直接返回
@@ -97,7 +99,6 @@ namespace myMap {
          */
         void InsertVertex(T vertex)
         {
-            vexnum += 1;
             for (int i = 0; i < vexnum; i++) {
                 this->Edge[vexnum][i] = INT_MAX;
                 this->Edge[i][vexnum] = INT_MAX;
@@ -107,6 +108,7 @@ namespace myMap {
                 }
             }
             this->Vex[vexnum] = vertex;
+            vexnum += 1;
         }
 
         /*
@@ -215,15 +217,43 @@ namespace myMap {
         /*
          * Dijkstra算法实现
          */
+        //FIXME:问题出现在最下面的while那里，需要将权跟节点在dist数组中的位置绑定，不然会有bug
         std::vector<int> Dijkstra(T source)
         {
-            std::vector<int> dist(vexnum, std::numeric_limits<int>::max());
-            dist[FindVertexIndex(source)] = 0;
+            int num = FindVertexIndex(source);
+            std::vector<int> dist(vexnum, INT_MAX); //距离数组
+            dist[num] = 0;
+
+            auto sort = [](const int& a, const int& b) {
+                return a > b;
+            };
+            std::priority_queue<int, std::vector<int>, decltype(sort)> pq(sort);
+
+            //将起点的距离设置为0，将所有其他节点的距离设置为无穷大（或一个足够大的数），并将起点加入一个优先队列（或最小堆）中，按照距离从小到大排序。
+			for(int i = 0; i < vexnum; i++)
+			{
+                pq.emplace(dist[i]);
+			}
+
+            //从优先队列中取出距离最小的节点（当前最短路径的节点），遍历与其相邻的节点。对于每个相邻节点，计算通过当前最短路径节点到达它的距离，并与已知距离进行比较。
+            //如果计算出的距离小于已知距离，则更新该节点的距离值，然后将其加入优先队列。
+            while(!pq.empty())
+            {
+                int u = pq.top();
+                pq.pop();
 
 
-            
+                for (int i = 0; i < this->MaxVertexNum; i++) {
+                    if (i == u) {
+                        continue;
+                    }
 
+                    dist[i] = (dist[u] + GetEdgeValue(u, i)) < dist[i] ? (dist[u] + GetEdgeValue(u, i)) : dist[i];
+                    pq.emplace(dist[i]);
+                }
+            }
 
+            return dist;
         }
 
     };

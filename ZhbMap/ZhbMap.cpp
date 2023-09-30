@@ -9,11 +9,38 @@ int main()
     map.InsertVertex(1);
     map.InsertVertex(2);
     map.InsertVertex(3);
-    map.AddEdge(1, 1);
-    std::cout << map.GetEdgeValue(0, 1) << std::endl;
-    std::cout << map.FindVertexIndex(0) << std::endl;
-    map.PrintMap();
-    std::cout << std::numeric_limits<int>::max() << std::endl;
+    map.AddEdge(0, 1);
+    map.AddEdge(0, 1);
+    map.AddEdge(0, 1);
+    map.AddEdge(0, 3);
+    map.AddEdge(0, 4);
+    map.AddEdge(1, 0);
+    map.AddEdge(1, 0);
+    map.AddEdge(1, 0);
+    map.AddEdge(2, 0);
+    map.AddEdge(3, 0);
+    map.AddEdge(3, 0);
+    map.AddEdge(2, 1);
+    map.AddEdge(1, 4);
+    map.AddEdge(1, 2);
+    map.AddEdge(1, 4);
+    map.AddEdge(2, 3);
+    map.AddEdge(3, 1);
+    map.AddEdge(1, 2);
+    map.AddEdge(1, 4);
+    map.AddEdge(1, 3);
+    map.AddEdge(1, 2);
+    map.AddEdge(1, 4);
+    map.AddEdge(1, 3);
+    map.AddEdge(3, 2);
+    //std::cout << map.GetEdgeValue(0, 1) << std::endl;
+    //std::cout << map.FindVertexIndex(0) << std::endl;
+    //map.PrintMap();
+    map.Dijkstra(1);
+    /*for(auto a = b.begin(); a != b.end(); ++a)
+    {
+        std::cout << *a << std::endl;
+    }*/
 
     return 0;
 }
