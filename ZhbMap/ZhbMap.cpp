@@ -35,12 +35,9 @@ int main()
     map.AddEdge(3, 2);
     //std::cout << map.GetEdgeValue(0, 1) << std::endl;
     //std::cout << map.FindVertexIndex(0) << std::endl;
+    std::cout << INT_MAX << std::endl;
     map.PrintMap();
     map.Dijkstra(1);
-    for(auto a = b.begin(); a != b.end(); ++a)
-    {
-        std::cout << *a << std::endl;
-    }
 
     return 0;
 }

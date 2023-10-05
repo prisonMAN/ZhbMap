@@ -182,6 +182,10 @@ namespace myMap {
          */
         int GetEdgeValue(int x, int y) const
         {
+            if(Edge[x][y] == INT_MAX)
+            {
+                return 0;
+            }
             return Edge[x][y];
         }
 
@@ -261,6 +265,7 @@ namespace myMap {
             for (int i = 0; i < vexnum; i++)
             {
                 result.emplace_back(dist[i], i);
+                std::cout << result[i].first << std::endl;
             }
 
 
