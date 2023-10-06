@@ -239,8 +239,6 @@ namespace myMap {
                 pq.emplace(dist[i], i);
 			}
 
-            std::vector<std::pair<int, int>> result;
-
             //从优先队列中取出距离最小的节点（当前最短路径的节点），遍历与其相邻的节点。对于每个相邻节点，计算通过当前最短路径节点到达它的距离，并与已知距离进行比较。
             //如果计算出的距离小于已知距离，则更新该节点的距离值，然后将其加入优先队列。
             while(!pq.empty())
@@ -262,18 +260,55 @@ namespace myMap {
                 }
             }
 
+            //将结果送入result向量中
+            std::vector<std::pair<int, int>> result;
             for (int i = 0; i < vexnum; i++)
             {
                 result.emplace_back(dist[i], i);
-                std::cout << result[i].first << std::endl;
             }
 
 
             return result;
         }
 
-    };
+        void Floyd()
+        {
+            // 距离矩阵
+            std::vector<std::vector<int>> W(this->vexnum, std::vector<int>(vexnum, INT_MAX));
+            // 路由矩阵
+            std::vector<std::vector<int>> R(this->vexnum, std::vector<int>(vexnum, -1));
 
+            // 初始化距离矩阵和路由矩阵
+            for (int i = 0; i < vexnum; i++)
+            {
+                W[i][i] = 0;
+                for (int j = 0; j < vexnum; j++)
+                {
+                    if (i != j && Adjacent(i, j))
+                    {
+                        W[i][j] = GetEdgeValue(i, j);
+                        R[i][j] = j;
+                    }
+                }
+            }
+
+            // 开始迭代矩阵
+            for (int k = 0; k < vexnum; k++)
+            {
+                for (int i = 0; i < vexnum; i++)
+                {
+                    for (int j = 0; j < vexnum; j++)
+                    {
+                        if (W[i][k] + W[k][j] < W[i][j] && W[i][k] != INT_MAX && W[k][j] != INT_MAX)
+                        {
+                            W[i][j] = W[i][k] + W[k][j];
+                            R[i][j] = R[i][k];
+                        }
+                    }
+                }
+            }
+
+    };
 
 
     class AdjListMap
