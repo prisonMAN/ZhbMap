@@ -219,6 +219,45 @@ namespace myMap {
         }
 
         /*
+         * K算法实现
+         */
+    	void K()
+        {
+            auto sort = [](const int& a, const int& b) {
+                return a > b;
+            };
+            std::priority_queue<int, std::vector<int>, decltype(sort)> pq(sort);
+
+            std::vector<bool> visited(this->vexnum, false); // 用于标记是否已经读过该行
+
+            for (int i = 0; i < this->vexnum; i++)
+            {
+                for (int j = 0; j < this->vexnum; j++)
+                {
+                    if (!visited[j]) // 未读过该行
+                    {
+                        pq.emplace(GetEdgeValue(i, j));
+                    }
+                }
+                visited[i] = true; // 标记已读过该行
+            }
+
+            for (int i = 0; i < (this->vexnum - 1); i++)
+            {
+                std::cout << pq.top() << std::endl;
+                pq.pop();
+            }
+        }
+
+        /*
+         * P算法实现
+         */
+        void P()
+        {
+	        
+        }
+
+        /*
          * Dijkstra算法实现
          */
         //FIXME:问题出现在最下面的while那里，需要将权跟节点在dist数组中的位置绑定，不然会有bug
@@ -307,6 +346,7 @@ namespace myMap {
                     }
                 }
             }
+        }
 
     };
 
